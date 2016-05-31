@@ -153,6 +153,7 @@ impl SocketAddressInner {
                                                  socket::SOCK_NONBLOCK | socket::SOCK_CLOEXEC,
                                                  0)));
 
+        try_syscall!(socket::setsockopt(fd.0, socket::sockopt::ReusePort, &true));
         try_syscall!(socket::setsockopt(fd.0, socket::sockopt::ReuseAddr, &true));
         try_syscall!(socket::bind(fd.0, &self.addr));
         try_syscall!(socket::listen(fd.0, 1024));
